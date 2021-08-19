@@ -1,0 +1,29 @@
+.navbar {
+  background-color: $color-white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+
+  & .logo {
+    display: inline-block;
+    color: $color-primary;
+    font-size: 2rem;
+    font-weight: 400;
+  }
+  &-nav {
+  }
+  &-nav-item {
+    color: $color-gray-dark;
+    font-weight: 300;
+    font-size: 1.7rem;
+    padding: 0 2rem;
+    transition: 0.3s ease;
+    display: inline-block;
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}

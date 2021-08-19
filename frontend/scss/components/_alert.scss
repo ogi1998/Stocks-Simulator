@@ -1,0 +1,25 @@
+.alert {
+  width: 80%;
+  text-align: center;
+  padding: 1rem;
+  color: transparent;
+
+  font-size: 1.7rem;
+  border-radius: 5px;
+  &-danger {
+    background-color: $color-danger-2;
+    color: $color-danger-1;
+  }
+  &-success {
+    background-color: $color-success-1;
+    color: $color-white;
+  }
+  &-info {
+    background-color: $color-info-1;
+    color: $color-white;
+
+  }
+  &-fadeable {
+    animation: fadeOut 0.5s 2s ease-in forwards;
+  }
+}

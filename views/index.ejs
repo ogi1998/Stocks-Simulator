@@ -1,0 +1,62 @@
+<div class="centerTable" id="table-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Name</th>
+        <th>Shares</th>
+        <th>Bought For</th>
+        <th>Share Price</th>
+        <th>Sell For</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+<script>
+  const tableContainer = document.getElementById('table-container');
+  const tableBody = document.getElementById('tbody');
+
+  window.addEventListener('load', async () => {
+    const stocks = await getStocks();
+    if (stocks.data.length < 1) {
+      const errorText = document.createElement('h1');
+      errorText.className = 'table-no-content-text';
+      errorText.textContent = 'YOU HAVE 0 STOCKS.';
+      tableContainer.appendChild(errorText);
+    } else {
+      stocks.data.forEach((stock) => {
+        const tr = document.createElement('tr');
+        const values = Object.values(stock);
+        values.push(values[2] * values[4])
+        for(let i = 0; i < 6; i++) {
+          const td = document.createElement('td');
+          td.textContent = values[i];
+          tr.appendChild(td);
+        }
+        tableBody.appendChild(tr);
+      });
+    }
+  });
+
+  const getStocks = async () => {
+    const res = await fetch('/stocks/getStocks');
+    const stocks = await res.json();
+    const promises = [];
+    stocks.data.forEach(async (stock) => {
+      const { symbol, shares, company, boughtFor } = stock;
+      const data = fetch(`/stocks/getPrice/${symbol}`)
+      .then(res => res.json());
+      
+      promises.push(data);
+    });
+    const data = await Promise.all(promises);
+
+    for(let i = 0; i < stocks.data.length; i++) {
+      stocks.data[i].latestPrice = data[i].data;
+    }
+
+    return stocks;
+
+  };
+</script>

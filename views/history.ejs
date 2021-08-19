@@ -1,0 +1,52 @@
+<div class="centerTable" id="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Symbol</th>
+          <th>Shares</th>
+          <th>Share Price</th>
+          <th>Transaction Date</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <script>
+      
+    const tableContainer = document.getElementById('table-container');
+    const tableBody = document.getElementById('tbody');
+  
+    window.addEventListener('load', async () => {
+      const transactions = await getTransactions();
+      if (transactions.data.length < 1) {
+        const errorText = document.createElement('h1');
+        errorText.className = 'table-no-content-text';
+        errorText.textContent = 'THERE ARE NO TRANSACTIONS YET.';
+        tableContainer.appendChild(errorText);
+      } else {
+        transactions.data.forEach((transaction) => {
+          const tr = document.createElement('tr');
+          const values = Object.values(transaction.transaction);
+          for(let i = 1; i < 5; i++) {
+            const td = document.createElement('td');
+            td.textContent = values[i];
+            tr.appendChild(td);
+          }
+          const td = document.createElement('td');
+            td.textContent = new Date(values[0]).toLocaleDateString();
+            tr.appendChild(td);
+          tableBody.appendChild(tr);
+        });
+      }
+    });
+  
+    const getTransactions = async () => {
+      const res = await fetch('/stocks/getTransactions');
+      const transactions = res.json();
+  
+      return transactions;
+  
+    };
+  </script>
+  

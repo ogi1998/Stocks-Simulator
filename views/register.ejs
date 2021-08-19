@@ -1,0 +1,112 @@
+<form class="form">
+  <h1 class="form-title">Register</h1>
+  <div class="alert mb-sm mt-sm">placeholder</div>
+  <div class="form-group mb-md">
+    <input
+      type="text"
+      id="username"
+      name="username"
+      class="form-input"
+      placeholder="Username"
+    />
+  </div>
+  <div class="form-group mb-md">
+    <input
+      type="text"
+      id="firstname"
+      name="firstName"
+      class="form-input"
+      placeholder="First name"
+    />
+    <input
+      type="text"
+      id="lastname"
+      name="lastName"
+      class="form-input"
+      placeholder="Last name"
+    />
+  </div>
+  <div class="form-group mb-md">
+    <input
+      type="email"
+      id="email"
+      name="email"
+      class="form-input"
+      placeholder="Email"
+    />
+  </div>
+  <div class="form-group mb-md">
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-input"
+      placeholder="Password"
+    />
+  </div>
+  <div class="form-group mb-md">
+    <input
+      type="password"
+      id="passwordConfirm"
+      name="passwordConfirm"
+      class="form-input"
+      placeholder="Repeat password"
+    />
+  </div>
+  <input class="form-btn-submit mb-md" type="submit" value="Register" />
+  <p class="text-primary">
+    Already registered? <a class="link-primary" href="/login">Login</a>
+  </p>
+</form>
+
+<script>
+  const form = document.querySelector('form');
+  const error = document.getElementsByClassName('alert')[0];
+  form.addEventListener('submit', async (e) => {
+    // reset default page refresh
+    e.preventDefault();
+
+    // get the values
+    const username = form.username.value;
+    const firstName = form.firstName.value;
+    const lastName = form.lastName.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const passwordConfirm = form.passwordConfirm.value;
+
+    try {
+      const res = await fetch('/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          username,
+          firstName,
+          lastName,
+          email,
+          password,
+          passwordConfirm,
+        }),
+        headers: { 'Content-type': 'application/json' },
+      });
+
+      const data = await res.json();
+      if (data.status === 'fail') {
+        error.className = 'alert alert-danger alert-fadeable mb-sm mt-sm'
+        error.textContent = data.message;
+        form.username.value = '';
+        form.firstName.value = '';
+        form.lastName.value = '';
+        form.email.value = '';
+        form.password.value = '';
+        form.passwordConfirm.value = '';
+        setTimeout(() => {
+          error.className = 'alert mb-sm mt-sm';
+          error.textContent = 'placeholder';
+        }, 2500);
+      } else {
+        location.assign('/');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>

@@ -1,0 +1,56 @@
+<form class="form">
+    <h1 class="form-title">Quote</h1>
+    <div class="alert mb-sm mt-sm">placeholder</div>
+    <div class="form-group mb-sm">
+      <input
+        type="text"
+        id="symbol"
+        name="symbol"
+        class="form-input"
+        placeholder="Company symbol"
+      />
+    </div>
+    <div class="alert mb-sm">placeholder</div>
+    <input class="form-btn-submit mb-sm" type="submit" value="Quote" />
+  </form>
+
+  <script>
+  const form = document.querySelector('form');
+  const error = document.getElementsByClassName('alert')[0];
+  const result = document.getElementsByClassName('alert')[1];
+
+  form.addEventListener('submit', async (e) => {
+
+    e.preventDefault(); 
+    
+    const symbol = form.symbol.value;
+    try {
+      const res = await fetch('/stocks/quote', {
+        method: 'POST',
+        body: JSON.stringify({ symbol }),
+        headers: { 'Content-type': 'application/json' },
+      });
+
+      const data = await res.json();
+
+      if (data.status === 'fail') {
+        error.className = 'alert alert-danger alert-fadeable mb-sm mt-sm';
+        error.textContent = data.message;
+        setTimeout(() => {
+            error.className = 'alert mb-sm mt-sm';
+            error.textContent = 'placeholder';
+        }, 2500);
+      } else {
+        result.className = 'alert alert-info alert-fadeable mb-sm'
+        result.textContent = `A share of ${data.company} (${data.symbol}) costs $ ${data.price}.`;
+        setTimeout(() => {
+            result.className = 'alert mb-sm';
+            result.textContent = 'placeholder';
+        }, 2500);
+      }
+      form.symbol.value = '';
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  </script>

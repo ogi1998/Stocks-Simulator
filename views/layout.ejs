@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css"/>
+    <title>Stocks Simulator</title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-nav">
+        <a href="/"><h1 class="logo">Stocks Simulator</h1></a>
+          <% if (user) {%>
+            <a href="/stocks/quote" class="navbar-nav-item">Quote</a>
+            <a href="/stocks/buy" class="navbar-nav-item">Buy</a>
+            <a href="/stocks/sell" class="navbar-nav-item">Sell</a>
+            <a href="/stocks/history" class="navbar-nav-item">History</a>
+          <% }%>
+      </div>
+      <div class="navbar-nav">
+        <% if (user) { %>
+        <p class="navbar-nav-item">Hello, <%- user.firstName %></p>
+        <p class="navbar-nav-item">CASH: <b><%= user.funds %>$</b></p>
+        <a href="/logout" class="navbar-nav-item">Logout</a>
+        <% } else { %>
+        <a href="/register" class="navbar-nav-item">Register</a>
+        <a href="/login" class="navbar-nav-item">Login</a>
+        <% }%>
+      </div>
+    </nav>
+    <div class="container"><%- body %></div>
+  </body>
+</html>

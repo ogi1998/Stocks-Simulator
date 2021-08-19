@@ -1,0 +1,56 @@
+<form class="form">
+  <h1 class="form-title">Buy</h1>
+  <div class="alert mb-sm mt-sm">placeholder</div>
+  <div class="form-group mb-sm">
+    <input
+      type="text"
+      id="symbol"
+      name="symbol"
+      class="form-input"
+      placeholder="Company symbol"
+    />
+  </div>
+  <div class="form-group mb-sm">
+    <input
+      type="number"
+      name="shares"
+      id="shares"
+      class="form-input"
+      placeholder="Number of shares"
+    />
+  </div>
+  <input class="form-btn-submit mb-sm" type="submit" value="Buy" />
+</form>
+<script>
+  const form = document.querySelector('form');
+  const error = document.getElementsByClassName('alert')[0];
+  const result = document.getElementsByClassName('alert')[1];
+  form.addEventListener('submit', async (e) => {
+    const symbol = form.symbol.value;
+    const shares = form.shares.value;
+    e.preventDefault();
+    try {
+      const res = await fetch('/stocks/buy', {
+        method: 'POST',
+        body: JSON.stringify({ symbol, shares }),
+        headers: { 'Content-type': 'application/json' },
+      });
+
+      const data = await res.json();
+
+      if (data.status === 'fail') {
+        console.log(data);
+        error.className = 'alert alert-danger alert-fadeable mb-sm mt-sm';
+        error.textContent = data.message;
+        setTimeout(() => {
+          error.className = 'alert mb-sm mt-sm';
+          error.textContent = 'placeholder';
+        }, 2500);
+      } else {
+        location.assign('/');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>

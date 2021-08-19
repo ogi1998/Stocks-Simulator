@@ -1,0 +1,31 @@
+.centerTable {
+    @include absCenter;
+    top: 50%;
+}
+.table {
+    background-color: $color-white;
+    border-collapse: collapse;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    & thead {
+        color: $color-primary;
+    }
+    & td, & th{
+        padding: 2rem 6rem;
+        border-bottom: 1px solid $color-gray-light;
+        margin: 0;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        text-align: center;
+    }
+    & tr:last-child td {
+        border-bottom: none;
+    }
+
+    &-no-content-text {
+        background: $color-white;
+        color: $color-danger-2;
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+}
