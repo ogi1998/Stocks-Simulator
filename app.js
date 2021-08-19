@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const authMiddleware = require('./middlewares/authMiddleware');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const indexRoute = require('./routes/indexRouter');
 const stocksRoute = require('./routes/stocksRouter');
