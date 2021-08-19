@@ -23,10 +23,10 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 
 mongoose
-  .connect(process.env.DB, {
+  .connect(process.env.DB_ATLAS, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
+    useCreateIndex: true
   })
   .then((con) => console.log('Database connected'))
   .catch((err) => console.log(err));
