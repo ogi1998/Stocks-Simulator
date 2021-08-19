@@ -53,6 +53,25 @@ a:link {
 .container {
   padding: 2rem 6rem; }
 
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+  border-radius: 10px; }
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 10px; }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 10px; }
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; }
+
 .text-primary {
   font-size: 1.5rem;
   font-weight: 400; }
@@ -156,7 +175,9 @@ a:link {
   top: 53%;
   left: 50%;
   transform: translate(-50%, -50%);
-  top: 50%; }
+  top: 50%;
+  max-height: 50%;
+  overflow-y: scroll; }
 
 .table {
   background-color: #fff;
@@ -164,7 +185,10 @@ a:link {
   border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); }
   .table thead {
-    color: #45b649; }
+    color: #45b649;
+    position: sticky;
+    top: 0;
+    background-color: #fff; }
   .table td, .table th {
     padding: 2rem 6rem;
     border-bottom: 1px solid #eee;
@@ -202,3 +226,13 @@ a:link {
     display: inline-block; }
     .navbar-nav-item:hover {
       color: #45b649; }
+
+.footer {
+  background-color: #fff;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center; }
+  .footer address {
+    font-size: 1.3rem;
+    padding: 2rem 0; }
