@@ -8,6 +8,7 @@
         <th>Bought For</th>
         <th>Share Price</th>
         <th>Sell For</th>
+        <th>Price State</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -28,10 +29,19 @@
       stocks.data.forEach((stock) => {
         const tr = document.createElement('tr');
         const values = Object.values(stock);
-        values.push(values[2] * values[4])
-        for(let i = 0; i < 6; i++) {
+        values.push((values[2] * values[4]).toFixed(2)) 
+        let arrow;
+        if(values[3] > values[5]) {
+          arrow = `<i class="fas fa-arrow-down text-danger"></i>`;
+        } else if(values[3] < values[5]) {
+          arrow = `<i class="fas fa-arrow-up text-success"></i>`;
+        } else {
+          arrow = `<i class="fas fa-equals"></i>`;
+        }
+        values.push(arrow);
+        for(let i = 0; i < 7; i++) {
           const td = document.createElement('td');
-          td.textContent = values[i];
+          td.innerHTML = values[i];
           tr.appendChild(td);
         }
         tableBody.appendChild(tr);

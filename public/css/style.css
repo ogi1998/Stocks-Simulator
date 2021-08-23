@@ -102,6 +102,12 @@ a:link {
 .mt-lg {
   margin-top: 4rem; }
 
+.text-danger {
+  color: #eb5757; }
+
+.text-success {
+  color: #38ef7d; }
+
 .form {
   position: absolute;
   top: 53%;

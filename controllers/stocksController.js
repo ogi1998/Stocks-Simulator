@@ -201,7 +201,7 @@ module.exports.sellPost = async (req, res) => {
             user.stocks.splice(index, 1);
           } else if (Number(shares) < stock.shares) {
             stock.shares -= Number(shares);
-            stock.boughtFor += Number(shares * data.latestPrice);
+            stock.boughtFor -= Number(shares * data.latestPrice).toFixed(2);
           } else {
             throw new Error('too-many-shares');
           }
