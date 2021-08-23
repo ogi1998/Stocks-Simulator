@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const authMiddleware = require('./middlewares/authMiddleware');
 
-// require('dotenv').config();
+require('dotenv').config();
 
 const indexRoute = require('./routes/indexRouter');
 const stocksRoute = require('./routes/stocksRouter');
@@ -23,7 +23,7 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 
 mongoose
-  .connect(process.env.DB_ATLAS, {
+  .connect(process.env.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

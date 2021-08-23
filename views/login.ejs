@@ -1,6 +1,6 @@
 <form class="form">
   <h1 class="form-title">Login</h1>
-  <div class="alert mb-sm mt-sm">placeholder</div>
+  <div class="alert mb-sm mt-sm">&nbsp;</div>
   <div class="form-group mb-lg">
     <input
       type="text"
@@ -50,7 +50,7 @@
         form.password.value = '';
         setTimeout(() => {
             error.className = 'alert mb-sm mt-sm';
-            error.textContent = 'placeholder';
+            error.textContent = String.fromCharCode(160);
         }, 2500);
       } else {
         location.assign('/');

@@ -7,7 +7,11 @@ const signJWT = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
-module.exports.loginGet = (req, res) => res.render('login');
+module.exports.loginGet = (req, res) => {
+  const user = res.locals.user;
+  if(user) res.redirect('/');
+  else res.render('login');
+}
 
 // Login errors are err.message since we are throwing new errors
 module.exports.loginPost = async (req, res) => {
@@ -35,7 +39,11 @@ module.exports.logout = (req, res) => {
   res.redirect('/login');
 };
 
-module.exports.registerGet = (req, res) => res.render('register');
+module.exports.registerGet = (req, res) =>   {
+  const user = res.locals.user;
+if(user) res.redirect('/');
+else res.render('register');
+}
 
 module.exports.registerPost = async (req, res) => {
   const { username, email, firstName, lastName, password, passwordConfirm } =
