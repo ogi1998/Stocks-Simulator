@@ -34,7 +34,7 @@
             tr.appendChild(td);
           }
           const td = document.createElement('td');
-            td.textContent = new Date(values[0]).toLocaleDateString();
+            td.textContent = new Date(values[0]).toLocaleString();
             tr.appendChild(td);
           tableBody.appendChild(tr);
         });
