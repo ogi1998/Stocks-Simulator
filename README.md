@@ -5,4 +5,5 @@ Technologies used:
 - NodeJS (Express) as backened techonology
 - JSON Web Tokens for authentication
 - EJS, CSS and SCSS for styling
+
 Demo can be found at: https://stocks-simulator.herokuapp.com/
