@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const authMiddleware = require('./middlewares/authMiddleware');
 
-// require('dotenv').config();
+require('dotenv').config();
 
 const indexRoute = require('./routes/indexRouter');
 const stocksRoute = require('./routes/stocksRouter');
@@ -22,6 +22,7 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 
+// if its local database, use env.DB instead of env.DB_ATLAS
 mongoose
   .connect(process.env.DB_ATLAS, {
     useNewUrlParser: true,
