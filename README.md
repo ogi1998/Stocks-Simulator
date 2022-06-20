@@ -15,5 +15,7 @@ Technologies used:
   - DB or DB_ATLAS - this should be connection string for the MongoDB database
   - JWT_SECRET - is a secret string for JWT authentication
     - to generate random string u can use following command in te console: ``require('crypto').randomBytes(64).toString('hex')``
+  - IEX_API_KEY - this is api key for the stocks API that Im using
+    - you can get your api key by going to website: ``https://iexcloud.io/``, creating  your account there and generating your api key
 ## Demo
 - Demo can be found at: https://stocks-simulator.herokuapp.com/
