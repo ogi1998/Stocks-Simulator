@@ -18,4 +18,4 @@ Technologies used:
   - IEX_API_KEY - this is api key for the stocks API that Im using
     - you can get your api key by going to website: ``https://iexcloud.io/``, creating  your account there and generating your api key
 ## Demo
-- Demo can be found at: https://stocks-simulator.herokuapp.com/
+- Demo can be found at: https://stocks-simulator.herokuapp.com/ // TODO
