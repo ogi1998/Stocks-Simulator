@@ -22,18 +22,17 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 
-// if its local database, use env.DB instead of env.DB_ATLAS
 mongoose
-  .connect(process.env.DB_ATLAS, {
+  .connect(process.env.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then((con) => console.log('Database connected'))
+  .then(() => console.log('Database connected'))
   .catch((err) => console.log(err));
 
 app.use('*', authMiddleware.getUser);
 app.use('/', indexRoute);
 app.use('/stocks', stocksRoute);
 
-app.listen(process.env.PORT, () => console.log('Server started'));
+app.listen(5000, () => console.log('Server started'));
