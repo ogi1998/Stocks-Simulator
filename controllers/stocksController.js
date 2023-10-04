@@ -1,17 +1,36 @@
-const fetch = require('node-fetch');
+const finnhub = require('finnhub');
 const Transaction = require('../models/Transaction');
 const User = require('../models/User');
 
 const getErrors = require('../controllers/errorController');
 
-// Get Data By Symbol API call
-const getDataBySymbol = async (symbol) => {
-  const response = await fetch(
-    `https://cloud.iexapis.com/stable/stock/${symbol}/quote?token=${process.env.IEX_API_KEY}`
-  );
-  const data = await response.json();
+finnhub.ApiClient.instance.authentications['api_key'].apiKey = process.env.API_KEY
+const finnhubClient = new finnhub.DefaultApi();
 
-  return data;
+function getCompanyData(symbol) {
+  return new Promise((resolve, reject) => {
+    finnhubClient.companyProfile2({'symbol': symbol}, (err, data) => {
+      if (err)
+        reject(err)
+      else
+        resolve({symbol: data.ticker, company: data.name});
+    });
+  })
+}
+
+function getStocksData(symbol) {
+  return new Promise((resolve, reject) => {
+    finnhubClient.quote(symbol, (err, data) => {
+      if (err)
+        reject(err)
+      else
+        resolve({latestPrice: data.c});
+    });
+  })
+}
+
+const getDataBySymbol = async (symbol) => {
+  return {...await getCompanyData(symbol), ...await getStocksData(symbol)};
 };
 
 // Return API Call data Price as response
@@ -77,13 +96,14 @@ module.exports.quotePost = async (req, res) => {
     res.status(200).json({
       status: 'success',
       symbol: data.symbol,
-      company: data.companyName,
+      company: data.company,
       price: data.latestPrice,
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: 'fail',
-      message: getErrors.getStockErrors(err),
+      message: getErrors.getStockErrors(err)
     });
   }
 };
@@ -111,7 +131,7 @@ module.exports.buyPost = async (req, res) => {
     if (!user.stocks.length) {
       const newStock = {
         symbol: data.symbol,
-        company: data.companyName,
+        company: data.company,
         shares: Number(shares),
         boughtFor: (data.latestPrice * Number(shares)).toFixed(2),
       };
@@ -120,19 +140,19 @@ module.exports.buyPost = async (req, res) => {
     } else {
       let stockExists = false;
 
-      // Loop through stocks and check if it already exists, then just increase number of shares and price
       user.stocks.forEach((stock) => {
         if (stock.symbol === data.symbol) {
           stock.shares += Number(shares);
-          stock.boughtFor += Number(shares * data.latestPrice).toFixed(2);
+          stock.boughtFor = (Number(stock.shares) * data.latestPrice).toFixed(2);
           user.funds = (user.funds - data.latestPrice * shares).toFixed(2);
           stockExists = true;
         }
       });
+
       if (stockExists === false) {
         const newStock = {
           symbol: data.symbol,
-          company: data.companyName,
+          company: data.company,
           shares: Number(shares),
           boughtFor: (data.latestPrice * Number(shares)).toFixed(2),
         };
@@ -170,6 +190,7 @@ module.exports.buyPost = async (req, res) => {
       message: `Successfully bought ${shares} shares of ${data.symbol} with a price of ${data.latestPrice}`,
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: 'fail',
       message: getErrors.getStockErrors(err),
